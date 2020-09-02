@@ -54,7 +54,7 @@ namespace Reisbureau.Controllers
             return View();
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public IActionResult OpslaanData(BezoekerViewModel bezoekerViewModel)
         {
             if (this.ModelState.IsValid)
@@ -67,7 +67,7 @@ namespace Reisbureau.Controllers
             }
             else
             {
-                return RedirectToAction("Ingavedata", bezoekerViewModel);
+                return RedirectToAction("ingavedata", bezoekerViewModel);
             }
 
         }
@@ -75,16 +75,20 @@ namespace Reisbureau.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult IngaveBestemming(BestemmingViewData bestemmingViewData)
         {
-            var dataBestemming = HttpContext.Session.GetString("Bestemminglijst");
-            List<string> myList = new List<string>();
-            if (dataBestemming != null)
-            {
-                myList = JsonConvert.DeserializeObject<List<string>>(dataBestemming);
 
+            if (this.ModelState.IsValid)
+            {
+                var dataBestemming = HttpContext.Session.GetString("Bestemminglijst");
+                List<string> myList = new List<string>();
+                if (dataBestemming != null)
+                {
+                    myList = JsonConvert.DeserializeObject<List<string>>(dataBestemming);
+
+                }
+                myList.Add(bestemmingViewData.Bestemming);
+                var geserializeerdeList = JsonConvert.SerializeObject(myList);
+                HttpContext.Session.SetString("Bestemminglijst", geserializeerdeList);
             }
-            myList.Add(bestemmingViewData.Bestemming);
-            var geserializeerdeList = JsonConvert.SerializeObject(myList);
-            HttpContext.Session.SetString("Bestemminglijst", geserializeerdeList);
             return RedirectToAction("index");
         }
         
@@ -103,6 +107,7 @@ namespace Reisbureau.Controllers
     public IActionResult Verstuur()
         {
             HttpContext.Session.Clear();
+            Response.Cookies.Delete("naamBezoeker");
             Response.Cookies.Delete("lastvisit");
             return RedirectToAction("index");
         }
