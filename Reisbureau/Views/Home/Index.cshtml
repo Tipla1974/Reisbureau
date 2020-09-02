@@ -1,0 +1,18 @@
+﻿@model BestemmingViewData
+<div style="text-align:center">
+    <h2>Brochures</h2>
+    <br />
+    <h3>Tik jouw reisbestemming</h3>
+    <form asp-action="IngaveBestemming" method="post">
+        <input asp-for="Bestemming" />
+        <br>
+        <br>
+        <input type="submit" value="Toevoegen" />
+        <div asp-validation-summary="All"></div>
+
+    </form>
+    
+</div>
+<div style="text-align:center">
+    @await Component.InvokeAsync("Bestemming")
+</div>

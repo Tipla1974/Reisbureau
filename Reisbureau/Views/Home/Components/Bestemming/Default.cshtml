@@ -1,0 +1,17 @@
+﻿@model List<string>
+
+@if (Model.Count != 0)
+{
+    <h2>Aangevraagde brochures</h2>
+    @foreach (string bestemming in Model)
+    {
+
+        <p>
+            @bestemming
+            <a href="~/Home/Delete/@bestemming"> <img src="~/Images/delete.png" alt="verwijderen" /> </a>
+        </p>
+
+    }
+    <a asp-action="Verstuur" class="btn btn-primary">Brochures Aanvragen</a>
+    @TempData["Plaats"]
+}
