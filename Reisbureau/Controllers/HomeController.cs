@@ -54,15 +54,25 @@ namespace Reisbureau.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult OpslaanData(BezoekerViewModel bezoekerViewModel)
         {
-            string bezoeker = bezoekerViewModel.Voornaam;
-            CookieOptions optionNaam = new CookieOptions();
-            Response.Cookies.Append("naamBezoeker", bezoeker, optionNaam);
-            optionNaam.Expires = DateTime.Now.AddDays(365);
-            return RedirectToAction("index");
+            if (this.ModelState.IsValid)
+            {
+                string bezoeker = bezoekerViewModel.Voornaam;
+                CookieOptions optionNaam = new CookieOptions();
+                Response.Cookies.Append("naamBezoeker", bezoeker, optionNaam);
+                optionNaam.Expires = DateTime.Now.AddDays(365);
+                return RedirectToAction("index");
+            }
+            else
+            {
+                return RedirectToAction("Ingavedata", bezoekerViewModel);
+            }
+
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult IngaveBestemming(BestemmingViewData bestemmingViewData)
         {
             var dataBestemming = HttpContext.Session.GetString("Bestemminglijst");
