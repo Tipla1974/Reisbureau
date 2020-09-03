@@ -31,7 +31,7 @@ namespace Reisbureau.Controllers
 
                     Bezoeker = "";
                     ViewBag.Bezoeker = "";
-                    return RedirectToAction("IngaveData");
+                    return RedirectToAction("index","Bestemmings");
                 }
                 
 
@@ -44,33 +44,14 @@ namespace Reisbureau.Controllers
                 CookieOptions option = new CookieOptions(); 
                 option.Expires = DateTime.Now.AddDays(365);  
                 Response.Cookies.Append("lastvisit", laatsteBezoek, option);
-                return RedirectToAction("IngaveData");
+                return RedirectToAction("index", "Bestemmings");
             }
                 
         }
-        public IActionResult IngaveData()
-        {
-            
-            return View();
-        }
-        [HttpPost]
-        
-        public IActionResult OpslaanData(BezoekerViewModel bezoekerViewModel)
-        {
-            if (this.ModelState.IsValid)
-            {
-                string bezoeker = bezoekerViewModel.Voornaam;
-                CookieOptions optionNaam = new CookieOptions();
-                Response.Cookies.Append("naamBezoeker", bezoeker, optionNaam);
-                optionNaam.Expires = DateTime.Now.AddDays(365);
-                return RedirectToAction("index");
-            }
-            else
-            {
-                return RedirectToAction("ingavedata", bezoekerViewModel);
-            }
 
-        }
+       
+        
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult IngaveBestemming(BestemmingViewData bestemmingViewData)
@@ -88,8 +69,13 @@ namespace Reisbureau.Controllers
                 myList.Add(bestemmingViewData.Bestemming);
                 var geserializeerdeList = JsonConvert.SerializeObject(myList);
                 HttpContext.Session.SetString("Bestemminglijst", geserializeerdeList);
+                return RedirectToAction("index");
             }
-            return RedirectToAction("index");
+            else
+            {
+                return View("view", bestemmingViewData);
+            }
+            
         }
         
         public IActionResult Delete(string Plaats)

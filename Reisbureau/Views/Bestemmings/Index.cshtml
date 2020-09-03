@@ -1,0 +1,46 @@
+﻿@model BezoekerViewModel
+
+<h2>Welkom op onze Website</h2>
+<br />
+<h3>Om de reisbrochures te kunnen opsturen vragen we volgende gegegevens:</h3>
+
+<form asp-action="OpslaanData" method="post">
+    <label asp-for="Naam"></label>
+    <span asp-validation-for="Naam">*</span>
+    <br>
+    <input asp-for="Naam" />
+    <br>
+    <label asp-for="Voornaam"></label>
+    <span asp-validation-for="Voornaam">*</span>
+    <br>
+    <input asp-for="Voornaam" />
+    <br>
+    <label asp-for="Adres"></label>
+    <span asp-validation-for="Adres">*</span>
+    <br>
+    <input asp-for="Adres" />
+    <br>
+    <label asp-for="Postcode"></label>
+    <span asp-validation-for="Postcode">*</span>
+    <br>
+    <input asp-for="Postcode" />
+    <br>
+    <label asp-for="Gemeente"></label>
+    <span asp-validation-for="Gemeente">*</span>
+    <br>
+    <input asp-for="Gemeente" />
+    <br>
+    <label asp-for="Email"></label>
+    <span asp-validation-for="Email">*</span>    <br>
+    <input asp-for="Email" />
+    <br>
+    <label asp-for="Telefoonnummer"></label>
+    <span asp-validation-for="Telefoonnummer">*</span>
+    <br>
+    <input asp-for="Telefoonnummer" />
+    <br>
+    <br>
+    <input type="submit" value="Doorsturen" />
+    <div asp-validation-summary="All"></div>
+</form>
+
